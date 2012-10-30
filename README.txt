@@ -16,7 +16,7 @@ exmove.ksの使用のため背景レイヤにはつかえないので
 ここで設定したbaselayerよりおおきいレイヤ番号のレイヤに作用する。
 
 使えるタグ
-@camera cx=絶対座標 cy=絶対座標 angle=傾き close=倍率(%) time=時間 accel=加速度 delay= opacity=(255) except=例外レイヤ
+@camera_move cx=絶対座標 cy=絶対座標 angle=傾き close=倍率(%) time=時間 accel=加速度 delay= opacity=(255) except=例外レイヤ
 cx,cyで指定した位置に視点を移動する。
 closeで倍率指定 100で通常の大きさ、200で倍
 angle cx, cyで指定した位置中心に回転する
