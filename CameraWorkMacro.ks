@@ -20,6 +20,9 @@
 ;	すぐに@camera_resetをすること
 ;	回転を使った後通常の画面に戻ったら必ずすぐに
 ;	@camera_resetをすること
+;
+;	注意!! (バグが多過ぎるので画面の中心以外を回転軸にはしないでください)
+;
 ;except ここで指定したレイヤには動作しない
 ;
 ;@camera_wait
@@ -27,6 +30,7 @@
 ;
 ;@camera_reset
 ;変数を初期化する。回転後、タイトル画面で使う
+;回転機能を使わないなら、必要なし
 
 @iscript
 var camera = %[];
@@ -51,12 +55,13 @@ function camera_move(elm)
 	elm.camerax = elm.cx;
 	elm.cameray = elm.cy;
 	elm.time = 500 if elm.time === void;
+	elm.opacity = 255 if elm.opacity === void;
 	for ( var i=(int) camera.baselayer; i<kag.numCharacterLayers; i++ )
 	{
 		if ( i != camera.messagelayer || i != elm.except)
 		{
 			elm.layer = (string)i;
-			elm.path = '(' + ( kag.fore.layers[i].left + kag.scWidth/2 - elm.camerax ) + ', ' + ( kag.fore.layers[i].top + kag.scHeight/2 - elm.cameray ) + ', 255)';
+			elm.path = '(' + ( kag.fore.layers[i].left + kag.scWidth/2 - elm.camerax ) + ', ' + ( kag.fore.layers[i].top + kag.scHeight/2 - elm.cameray ) + ', ' + elm.opacity + ')';
 			kag.tagHandlers.move(elm);
 		}
 	}
@@ -65,7 +70,7 @@ function camera_exmove(elm)
 {
 	elm.close = 100 if elm.close === void;
 	elm.angle = 0 if elm.angle === void;
-	elm.opacity = 255 if elm.time === void;
+	elm.opacity = 255 if elm.opacity === void;
 	elm.time = 500 if elm.time === void;
 	elm.except = 'kara' if elm.except === void;
 	elm.layer = camera.baselayer;
@@ -82,7 +87,7 @@ function camera_exmove(elm)
 				elm.layer = (string)i;
 				elm.cx = (string)(elm.camerax - kag.fore.layers[i].left);
 				elm.cy = (string)(elm.cameray - kag.fore.layers[i].top);
-				elm.path = '(' + kag.scWidth/2 + ', ' + kag.scHeight/2 + ', 255, ' + elm.close + ', ' + elm.angle + ')';
+				elm.path = '(' + kag.scWidth/2 + ', ' + kag.scHeight/2 + ', ' + elm.opacity + ', ' + elm.close + ', ' + elm.angle + ')';
 				ExtendedMover.beginMove(mp);
 				
 				f.CameraWorkMacro.pre_top[i]  = kag.fore.layers[i].top;
